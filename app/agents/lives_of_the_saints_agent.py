@@ -5,20 +5,20 @@ from langchain.prompts import ChatPromptTemplate
 from typing import Dict, Any, Optional
 from pydantic import BaseModel, Field
 
-from app.rag.saints_rag import SaintsRAG
+from app.rag.lives_of_the_saints_rag import LivesOfTheSaintsRAG
 
-class SaintsQueryInput(BaseModel):
-    """Input for the Saints Expert query."""
-    query: str = Field(description="The query about saints or spiritual fathers")
+class LivesOfTheSaintsQueryInput(BaseModel):
+    """Input for the Lives of the Saints Expert query."""
+    query: str = Field(description="The query about lives of the saints or spiritual fathers")
 
-class SaintsAgent:
+class LivesOfTheSaintsAgent:
     """
     Subagent specialized in knowledge about lives of saints and spiritual fathers.
     """
     
     def __init__(self, openai_api_key: str, model_name: str = "gpt-3.5-turbo"):
         self.llm = ChatOpenAI(api_key=openai_api_key, model=model_name)
-        self.rag = SaintsRAG()
+        self.rag = LivesOfTheSaintsRAG()
         
         # Create the agent prompt
         self.prompt = ChatPromptTemplate.from_messages([
@@ -32,13 +32,13 @@ class SaintsAgent:
     
     async def query(self, query: str) -> str:
         """
-        Process a query about saints and return a response.
+        Process a query about lives of the saints and return a response.
         
         Args:
-            query: The query about saints or spiritual fathers
+            query: The query about lives of the saints or spiritual fathers
             
         Returns:
-            A detailed response with information about the saints
+            A detailed response with information about the lives of the saints
         """
         # Retrieve relevant information from the RAG system
         rag_results = await self.rag.query(query)
@@ -64,8 +64,8 @@ class SaintsAgent:
             return await self.query(query)
         
         return BaseTool(
-            name="SaintsExpert",
-            description="Use this tool when you need information about saints, spiritual fathers, their lives, teachings, or wisdom.",
+            name="LivesOfTheSaintsExpert",
+            description="Use this tool when you need information about lives of the saints, spiritual fathers, their lives, teachings, or wisdom.",
             func=_run,
-            args_schema=SaintsQueryInput
+            args_schema=LivesOfTheSaintsQueryInput
         ) 

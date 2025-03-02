@@ -6,8 +6,8 @@ import os
 from dotenv import load_dotenv
 
 from app.agents.core_agent import CoreAgent
-from app.rag.saints_scraper import SaintsScraper
-from app.rag.saints_rag import SaintsRAG
+from app.rag.lives_of_the_saints_scraper import LivesOfTheSaintsScraper
+from app.rag.lives_of_the_saints_rag import LivesOfTheSaintsRAG
 from app.utils.embedding_utils import EmbeddingUtils
 
 # Load environment variables
@@ -26,8 +26,8 @@ app.add_middleware(
 
 # Initialize agents
 core_agent = CoreAgent(openai_api_key=os.getenv("OPENAI_API_KEY"))
-saints_scraper = SaintsScraper()
-saints_rag = SaintsRAG()
+lives_of_the_saints_scraper = LivesOfTheSaintsScraper()
+lives_of_the_saints_rag = LivesOfTheSaintsRAG()
 embedding_utils = EmbeddingUtils()
 
 class QueryRequest(BaseModel):
@@ -50,25 +50,25 @@ async def chat(request: QueryRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/api/scrape-saints")
-async def scrape_saints():
+@app.post("/api/scrape-lives-of-the-saints")
+async def scrape_lives_of_the_saints():
     """
-    Scrape information about saints from various sources.
+    Scrape information about lives of the saints from various sources.
     """
     try:
-        saints_data = await saints_scraper.scrape_all()
-        await saints_scraper.create_vector_db(saints_data)
+        saints_data = await lives_of_the_saints_scraper.scrape_all()
+        await lives_of_the_saints_scraper.create_vector_db(saints_data)
         return {"message": f"Successfully scraped information about {len(saints_data)} saints"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/api/query-saints")
-async def query_saints(request: QueryRequest):
+@app.post("/api/query-lives-of-the-saints")
+async def query_lives_of_the_saints(request: QueryRequest):
     """
-    Query the saints RAG system for information about saints.
+    Query the lives of the saints RAG system for information.
     """
     try:
-        results = await saints_rag.query(request.query)
+        results = await lives_of_the_saints_rag.query(request.query)
         return {"results": results}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -3,12 +3,12 @@ import os
 from langchain.vectorstores import Chroma
 from langchain.embeddings import OpenAIEmbeddings
 
-class SaintsRAG:
+class LivesOfTheSaintsRAG:
     """
-    Retrieval-Augmented Generation system for saints information.
+    Retrieval-Augmented Generation system for lives of the saints information.
     """
     
-    def __init__(self, vector_db_path: str = "data/saints_vectordb"):
+    def __init__(self, vector_db_path: str = "data/lives_of_the_saints_vectordb"):
         self.vector_db_path = vector_db_path
         self.embeddings = OpenAIEmbeddings(
             openai_api_key=os.getenv("OPENAI_API_KEY")
@@ -25,17 +25,17 @@ class SaintsRAG:
     
     async def query(self, query: str, top_k: int = 5) -> str:
         """
-        Query the vector database for relevant information about saints.
+        Query the vector database for relevant information about lives of the saints.
         
         Args:
-            query: The query about saints
+            query: The query about lives of the saints
             top_k: Number of top results to return
             
         Returns:
-            A string containing relevant information about saints
+            A string containing relevant information about lives of the saints
         """
         if self.vector_db is None:
-            return "The saints database has not been initialized yet."
+            return "The lives of the saints database has not been initialized yet."
         
         # Retrieve relevant documents
         docs = self.vector_db.similarity_search(query, k=top_k)

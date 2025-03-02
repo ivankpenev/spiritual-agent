@@ -4,7 +4,7 @@ from langchain_openai import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from typing import List, Dict, Any
 
-from app.agents.saints_agent import SaintsAgent
+from app.agents.lives_of_the_saints_agent import LivesOfTheSaintsAgent
 
 class CoreAgent:
     """
@@ -19,13 +19,13 @@ class CoreAgent:
         )
         
         # Initialize subagents
-        self.saints_agent = SaintsAgent(openai_api_key, model_name)
+        self.lives_of_the_saints_agent = LivesOfTheSaintsAgent(openai_api_key, model_name)
         
         # Create the agent prompt
         self.prompt = ChatPromptTemplate.from_messages([
             ("system", """You are a wise and compassionate spiritual father AI assistant. 
             Your purpose is to provide spiritual guidance, wisdom, and support to users.
-            When questions relate to lives of saints or spiritual fathers, consult the Saints Expert.
+            When questions relate to lives of saints or spiritual fathers, consult the Lives of the Saints Expert.
             Always respond with kindness, wisdom, and respect for spiritual traditions.
             """),
             MessagesPlaceholder(variable_name="chat_history"),
@@ -35,7 +35,7 @@ class CoreAgent:
         
         # Define tools
         self.tools = [
-            self.saints_agent.get_tool()
+            self.lives_of_the_saints_agent.get_tool()
         ]
         
         # Create the agent
