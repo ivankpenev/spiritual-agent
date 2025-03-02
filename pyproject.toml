@@ -11,14 +11,20 @@ python = "^3.12"
 langchain = "^0.2.17"
 langchain-openai = "^0.1.25"
 faiss-cpu = "^1.7.4"
+fastapi = "^0.104.0"
+uvicorn = "^0.23.2"
+pydantic = "^2.4.2"
 python-dotenv = "^1.0.0"
+chromadb = "^0.4.18"
+beautifulsoup4 = "^4.12.2"
+requests = "^2.31.0"
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.dev-dependencies]
 pytest = "^7.4.0"
 black = "^23.7.0"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
